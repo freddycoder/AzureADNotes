@@ -1,5 +1,16 @@
 # AzureAD - Notes
 
+<!--ts-->
+ * [Getting started](#getting-started)
+ * [Working with roles](#working-with-roles)
+ * [Manage User and Group](#manage-user-and-group)
+   * [User](#user)
+   * [Group](#group)
+ * [Manage Devices and Applications](#manage-devices-and-applications)
+   * [Devices](#devices)
+   * [Applications](#applications)
+<!--te-->
+
 ## Getting started
 
 powershell
