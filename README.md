@@ -130,3 +130,50 @@ https://myapps.microsoft.com
 
 In the dashboard, you can add external user to groups.
 
+## Manage Devices and Applications
+
+### Devices
+
+```
+# List command with device
+Get-Command -Module AzureAD "*device*"
+
+Get-AzureADDevice | Format-List
+
+$device = Get-AzureADDevice -ObjectId <objectId-guid-past-from-last-command>
+
+Get-AzureADDeviceRegisteredOwner -ObjectId $device.ObjectId
+Get-AzureADDeviceRegisteredUser -ObjectId $device.ObjectId
+
+# Add a user to a device
+$user = Get-AzureADUser -SearchString "Arthur Dent"
+
+Add-AzureADDeviceRegisteredUser -ObjectId $device.ObjectId -RefObjectId $user.ObjectId
+
+Disable a device
+Set-AzureADDevice -AccountEnabled:$false -ObjectId $device.ObjectId
+```
+
+### Applications
+
+Azure AD IDaaS (Identity as a Service)
+
+```
+Get-Command -Module AzureAD "*application*"
+
+Get-Help <azureAdApplicationCommand>
+
+Get-AzureADApplication
+
+$app = New-AzureADApplication -DisplayName "Marketing App" -IdentifierUris "http://marketing.freddycoder.com"
+
+$app | Format-List
+
+New-AzureADServicePrincipal -AppId $app.AppId
+
+Get-AzureADApplication
+```
+
+## References 
+
+- https://app.pluralsight.com/library/courses/microsoft-azure-active-directory-managing-identities/table-of-contents
