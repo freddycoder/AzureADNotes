@@ -9,6 +9,7 @@
  * [Manage Devices and Applications](#manage-devices-and-applications)
    * [Devices](#devices)
    * [Applications](#applications)
+ * [References](#references)
 <!--te-->
 
 ## Getting started
@@ -187,4 +188,8 @@ Get-AzureADApplication
 
 ## References 
 
+Pluralsight cours
 - https://app.pluralsight.com/library/courses/microsoft-azure-active-directory-managing-identities/table-of-contents
+
+AzureAD documentation repo
+- https://github.com/Azure/azure-docs-powershell-azuread
