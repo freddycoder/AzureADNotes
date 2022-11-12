@@ -5,15 +5,39 @@ Get-AzureADCurrentSessionInfo
 Get-AzureADTenantDetail
 Get-AzureADDomain
 
-$ui = Get-AzureADApplication -Filter "DisplayName eq 'ErabliereIU-Local'"
+function Set-AzureADApplicationRedirectUrls(
+    [string]$DisplayNameFilter,
+    [string]$ReplyUrls,
+    [string]$LogoutUrl,
+    [bool]$PublicClient = $false
+) {
+    $ui = Get-AzureADApplication -Filter "DisplayName eq '$DisplayNameFilter'"
 
-Write-Host "ReplyUrls" $ui.ReplyUrls
-Write-Host "LogoutUrl" $ui.LogoutUrl
+    Write-Host "Set-AzureADApplicationRedirectUrl Before change"
+    Write-Host "ReplyUrls" $ui.ReplyUrls
+    Write-Host "LogoutUrl" $ui.LogoutUrl
 
-Set-AzureADApplication -ObjectId $ui.ObjectId -ReplyUrls "https://192.168.1.2:5001/signin-callback" -PublicClient $true
-Set-AzureADApplication -ObjectId $ui.ObjectId -LogoutUrl "https://192.168.1.2/signout-callback"
+    Set-AzureADApplication -ObjectId $ui.ObjectId -ReplyUrls $ReplyUrls -PublicClient $PublicClient
 
-$ui = Get-AzureADApplication -Filter "DisplayName eq 'ErabliereIU-Local'"
+    if ($LogoutUrl -ne "") {
+        Set-AzureADApplication -ObjectId $ui.ObjectId -LogoutUrl $LogoutUrl
+    }
 
-Write-Host "ReplyUrls" $ui.ReplyUrls
-Write-Host "LogoutUrl" $ui.LogoutUrl
+    $ui = Get-AzureADApplication -Filter "DisplayName eq '$DisplayNameFilter'"
+
+    Write-Host "Set-AzureADApplicationRedirectUrl After change"
+    Write-Host "ReplyUrls" $ui.ReplyUrls
+    Write-Host "LogoutUrl" $ui.LogoutUrl
+}
+
+Set-AzureADApplicationRedirectUrls `
+    -DisplayNameFilter "ErabliereIU-Local" `
+    -ReplyUrls "https://192.168.1.2:5001/signin-callback" `
+    -LogoutUrl "https://192.168.1.2/signout-callback" `
+    -PublicClient $true
+
+Set-AzureADApplicationRedirectUrls `
+    -DisplayNameFilter "ErabliereAPISwagger-Local" `
+    -ReplyUrls "https://192.168.1.2:5001/api/oauth2-redirect.html" `
+    -LogoutUrl "" `
+    -PublicClient $true
